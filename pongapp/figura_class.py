@@ -35,8 +35,6 @@ class Raqueta():
     def abajo(self):
         return self.pos_y + (self.h//2)
 
-    
-
 class Pelota():
     def __init__(self, pos_x, pos_y, color=COLOR_BLANCO, radio=15, vx=1, vy=1):
         self.pos_x = pos_x
@@ -45,8 +43,6 @@ class Pelota():
         self.radio = radio
         self.vx = vx
         self.vy = vy
-        self.contadorDerecho = 0
-        self.contadorIzquierdo = 0
 
     def dibujar(self, surface):
         pg.draw.circle(surface, self.color, (self.pos_x, self.pos_y), self.radio)
@@ -60,7 +56,8 @@ class Pelota():
             self.pos_y = 300
             self.vx *= -1
             self.vy *= -1
-            self.contadorDerecho += 1
+
+            return 'right'
 
         #limite izquierdo
         if self.pos_x <= 0 - (1*self.radio):
@@ -68,19 +65,12 @@ class Pelota():
             self.pos_y = 300
             self.vx *= -1
             self.vy *= -1
-            self.contadorIzquierdo += 1
+
+            return 'left'
 
         if self.pos_y >= y_max or self.pos_y <= 0:
             self.vy *= -1
         
-    def mostrar_marcador(self, surface):
-        fuente1 = pg.font.Font(None, 40)
-        marcador1 = fuente1.render(str(self.contadorIzquierdo), True, COLOR_NARANJA)
-        marcador2 = fuente1.render(str(self.contadorDerecho), True, COLOR_NARANJA)
-        surface.blit(marcador1, (325,50))
-        surface.blit(marcador2, (450,50))
-  
-
     @property
     def derecha(self):
         return self.pos_x + (self.radio)
