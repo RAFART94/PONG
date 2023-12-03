@@ -75,15 +75,11 @@ class Pelota():
         
     def mostrar_marcador(self, surface):
         fuente1 = pg.font.Font(None, 40)
-        fuente2 = pg.font.SysFont('Verdana', 30)
         marcador1 = fuente1.render(str(self.contadorIzquierdo), True, COLOR_NARANJA)
         marcador2 = fuente1.render(str(self.contadorDerecho), True, COLOR_NARANJA)
-        player1 = fuente2.render('Player 1', True, COLOR_AZUL)
-        player2 = fuente2.render('Player 2', True, COLOR_AZUL)
         surface.blit(marcador1, (325,50))
         surface.blit(marcador2, (450,50))
-        surface.blit(player1, (225,20))
-        surface.blit(player2, (450,20))
+  
 
     @property
     def derecha(self):

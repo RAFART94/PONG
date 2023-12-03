@@ -1,5 +1,5 @@
-from figura_class import *
-from pantallas import *
+from pongapp.figura_class import *
+from pongapp.pantallas import *
 '''
 juego = Partida()
 juego.bucle_fotograma()
@@ -25,3 +25,15 @@ def datosPersonales(*args):
 
 datosPersonales('Jose', 'Martinez', 25, True, [1,2,3])
 '''
+
+def mover_mano()->str:
+    return 'izquierda'
+
+def recibirMano(mano):
+    if mano == 'izquierda':
+        print('Zurda')
+    else:
+        print('Derecha')
+
+recibirMano(mover_mano())
+

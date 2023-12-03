@@ -13,6 +13,9 @@ class Partida():
         self.raqueta1 = Raqueta(ANCHO-800, ALTO//2)
         self.raqueta2 = Raqueta(ANCHO-20, ALTO//2)
 
+        self.fuente1 = pg.font.Font(None, 40)
+        self.fuente2 = pg.font.SysFont('Verdana', 30)
+
     def bucle_fotograma(self):
         game_over = True
         while game_over:
@@ -24,10 +27,12 @@ class Partida():
         
             self.pantalla_principal.fill(COLOR_CANCHA)
             #pg.draw.line(self.pantalla_principal, COLOR_BLANCO, (ANCHO//2,0), (ANCHO//2,ALTO), width=10)
+            self.mostrar_linea_central()
 
             self.raqueta1.dibujar(self.pantalla_principal)
             self.raqueta2.dibujar(self.pantalla_principal)
             self.pelota.dibujar(self.pantalla_principal)
+            self.mostrar_jugadores()
 
             self.raqueta1.mover(pg.K_w, pg.K_s)
             self.raqueta2.mover(pg.K_UP, pg.K_DOWN)
@@ -38,6 +43,24 @@ class Partida():
 
             pg.display.flip()
 
-    pg.quit()
+        pg.quit()
+
+    def mostrar_linea_central(self):
+            '''
+            cont_linea = 0
+            while cont_linea <= 600:
+                pg.draw.line(self.pantalla_principal, COLOR_BLANCO, (400,cont_linea), (400,cont_linea+50), width=10)
+                cont_linea += 70
+            '''
+
+            for cont_linea in range(0,601,70):
+                pg.draw.line(self.pantalla_principal, COLOR_BLANCO, (ANCHO//2,cont_linea), (ANCHO//2,cont_linea+50), width=10)
+            
+    def mostrar_jugadores(self):
+        player1 = self.fuente2.render('Player 1', True, COLOR_AZUL)
+        player2 = self.fuente2.render('Player 2', True, COLOR_AZUL)
+        self.pantalla_principal.blit(player1, (225,20))
+        self.pantalla_principal.blit(player2, (450,20))   
+
 
 
