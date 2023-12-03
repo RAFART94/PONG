@@ -2,7 +2,7 @@ import pygame as pg
 import random as ra
 
 class Raqueta():
-    def __init__(self, pos_x, pos_y, color=(255,255,255),w=20, h=120,):
+    def __init__(self, pos_x, pos_y, color=(255,255,255),  w=20, h=120):
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.color = color
@@ -41,17 +41,24 @@ class Pelota():
         self.pos_y += self.vy
         #limite derecho
         if self.pos_x >= x_max + (5*self.radio):
-            self.pos_x = 400
-            self.pos_y = 300
+            #self.pos_x = 400
+            #self.pos_y = 300
             self.vx *= -1
             self.contadorDerecho += 1
 
         #limite izquierdo
         if self.pos_x <= 0 - (5*self.radio):
-            self.pos_x = 400
-            self.pos_y = 300
+            #self.pos_x = 400
+            #self.pos_y = 300
             self.vx *= -1
             self.contadorIzquierdo += 1
 
         if self.pos_y >= y_max or self.pos_y <= 0:
             self.vy *= -1
+        
+    def mostrar_marcador(self, surface):
+        fuente = pg.font.Font(None, 30)
+        marcador1 = fuente.render(str(self.contadorIzquierdo), True, (255,255,255))
+        marcador2 = fuente.render(str(self.contadorDerecho), True, (255,255,255))
+        surface.blit(marcador1, (325,50))
+        surface.blit(marcador2, (450,50))
