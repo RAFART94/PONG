@@ -38,20 +38,7 @@ while game_over:
     raqueta2.mover(pg.K_UP, pg.K_DOWN)
     pelota.mover()
 
-    #Lógica de choque
-    #Raqueta derecha
-    if pelota.derecha >= raqueta2.izquierda and\
-        pelota.izquierda <= raqueta2.derecha and\
-        pelota.abajo >= raqueta2.arriba and\
-        pelota.arriba <= raqueta2.abajo            :
-            pelota.vx *= -1
-    #Raqueta izquierda
-    if pelota.derecha >= raqueta1.izquierda and\
-        pelota.izquierda <= raqueta1.derecha and\
-        pelota.abajo >= raqueta1.arriba and\
-        pelota.arriba <= raqueta1.abajo            :
-            pelota.vx *= -1
-
+    pelota.comprobar_choqueV2(raqueta1, raqueta2)
     pelota.mostrar_marcador(pantalla_principal)
 
     pg.display.flip()
