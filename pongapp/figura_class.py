@@ -1,8 +1,8 @@
 import pygame as pg
-import random as ra
+from .utils import *
 
 class Raqueta():
-    def __init__(self, pos_x, pos_y, color=(255,255,255),  w=20, h=120):
+    def __init__(self, pos_x, pos_y, color=COLOR_BLANCO,  w=20, h=120):
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.color = color
@@ -38,7 +38,7 @@ class Raqueta():
     
 
 class Pelota():
-    def __init__(self, pos_x, pos_y, color=(255,255,255), radio=5, vx=1, vy=1):
+    def __init__(self, pos_x, pos_y, color=COLOR_BLANCO, radio=15, vx=1, vy=1):
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.color = color
@@ -51,7 +51,7 @@ class Pelota():
     def dibujar(self, surface):
         pg.draw.circle(surface, self.color, (self.pos_x, self.pos_y), self.radio)
 
-    def mover(self, x_max=800, y_max=600):
+    def mover(self, x_max=ANCHO, y_max=ALTO):
         self.pos_x += self.vx
         self.pos_y += self.vy
         #limite derecho
@@ -74,12 +74,12 @@ class Pelota():
             self.vy *= -1
         
     def mostrar_marcador(self, surface):
-        fuente1 = pg.font.Font(None, 30)
+        fuente1 = pg.font.Font(None, 40)
         fuente2 = pg.font.SysFont('Verdana', 30)
-        marcador1 = fuente1.render(str(self.contadorIzquierdo), True, (255,255,255))
-        marcador2 = fuente1.render(str(self.contadorDerecho), True, (255,255,255))
-        player1 = fuente2.render('Player 1', True, (255,255,255))
-        player2 = fuente2.render('Player 2', True, (255,255,255))
+        marcador1 = fuente1.render(str(self.contadorIzquierdo), True, COLOR_NARANJA)
+        marcador2 = fuente1.render(str(self.contadorDerecho), True, COLOR_NARANJA)
+        player1 = fuente2.render('Player 1', True, COLOR_AZUL)
+        player2 = fuente2.render('Player 2', True, COLOR_AZUL)
         surface.blit(marcador1, (325,50))
         surface.blit(marcador2, (450,50))
         surface.blit(player1, (225,20))
