@@ -13,7 +13,7 @@ class Partida():
         self.raqueta1 = Raqueta(ANCHO-800, ALTO//2)
         self.raqueta2 = Raqueta(ANCHO-20, ALTO//2)
 
-        self.fuente1 = pg.font.Font(None, 40)
+        self.fuente1 = pg.font.Font('pongapp/fonts/pixel.ttf', 40)
         self.fuente2 = pg.font.SysFont('Verdana', 30)
         self.contadorDerecho = 0
         self.contadorIzquierdo = 0
