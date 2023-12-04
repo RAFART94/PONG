@@ -9,3 +9,4 @@ TIEMPO_JUEGO = 20000
 COLOR_ROJO = (165, 23, 36)
 FONDO_ROJO = (250, 16, 34)
 FONDO_NARANJA = (250, 103, 12)
+FUENTE1 = 'pongapp/fonts/pixel.ttf'

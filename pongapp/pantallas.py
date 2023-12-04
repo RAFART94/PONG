@@ -13,7 +13,7 @@ class Partida():
         self.raqueta1 = Raqueta(ANCHO-800, ALTO//2)
         self.raqueta2 = Raqueta(ANCHO-20, ALTO//2)
 
-        self.fuente1 = pg.font.Font('pongapp/fonts/pixel.ttf', 40)
+        self.fuente1 = pg.font.Font(FUENTE1, 40)
         self.fuente2 = pg.font.SysFont('Verdana', 30)
         self.contadorDerecho = 0
         self.contadorIzquierdo = 0
@@ -36,9 +36,8 @@ class Partida():
             color = self.fijar_fondo()
             self.pantalla_principal.fill(color)
 
-            self.fijar_fondo()
             self.mostrar_linea_central()
-            self.finalizacion_de_juego()
+
             self.raqueta1.dibujar(self.pantalla_principal)
             self.raqueta2.dibujar(self.pantalla_principal)
             self.pelota.dibujar(self.pantalla_principal)
@@ -51,7 +50,8 @@ class Partida():
             self.pelota.comprobar_choqueV2(self.raqueta1, self.raqueta2)
             self.mostrar_marcador()
             self.mostrar_temporizador()
-
+            self.finalizacion_de_juego()
+ 
             pg.display.flip()
 
         pg.quit()
@@ -71,7 +71,6 @@ class Partida():
                 self.contadorDerecho += 1
         elif self.quienMarco == 'left':
                 self.contadorIzquierdo += 1
-        self.fuente1 = pg.font.Font(None, 40)
         marcador1 = self.fuente1.render(str(self.contadorIzquierdo), True, COLOR_NARANJA)
         marcador2 = self.fuente1.render(str(self.contadorDerecho), True, COLOR_NARANJA)
         self.pantalla_principal.blit(marcador1, (325,50))
