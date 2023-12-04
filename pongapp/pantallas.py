@@ -20,22 +20,25 @@ class Partida():
         self.quienMarco = ''
         self.temporizador = TIEMPO_JUEGO #Son 10 segundos
         self.game_over = True
+        self.contadorFotograma = 0
+        self.colorFondo = COLOR_CANCHA
+
     def bucle_fotograma(self):
         
         while self.game_over:
             self.valor_tasa = self.tasa_refresco.tick(350)
             self.temporizador = self.temporizador - self.valor_tasa
 
-           
             for evento in pg.event.get():
                 if evento.type == pg.QUIT:
                     self.game_over = False
             
-            self.finalizacion_de_juego()
+            color = self.fijar_fondo()
+            self.pantalla_principal.fill(color)
 
-            self.pantalla_principal.fill(COLOR_CANCHA)
+            self.fijar_fondo()
             self.mostrar_linea_central()
-
+            self.finalizacion_de_juego()
             self.raqueta1.dibujar(self.pantalla_principal)
             self.raqueta2.dibujar(self.pantalla_principal)
             self.pelota.dibujar(self.pantalla_principal)
@@ -92,3 +95,33 @@ class Partida():
     def mostrar_temporizador(self):
         TIEMPO_JUEGO = self.fuente2.render(str(int(self.temporizador/1000)), True, COLOR_ROJO)
         self.pantalla_principal.blit(TIEMPO_JUEGO, (400,20))
+
+    def fijar_fondo(self):
+        self.contadorFotograma += 1
+        if self.temporizador > 10000:
+            self.contadorFotograma = 0
+        elif self.temporizador > 5000:
+            if self.contadorFotograma == 20:
+                if self.colorFondo == COLOR_CANCHA:
+                    self.colorFondo = FONDO_NARANJA
+                else:
+                    self.colorFondo = COLOR_CANCHA
+                self.contadorFotograma = 0
+        else:
+            if self.contadorFotograma == 20:
+                if self.colorFondo == COLOR_CANCHA or self.colorFondo == FONDO_NARANJA:
+                    self.colorFondo = FONDO_ROJO
+                else:
+                    self.colorFondo = COLOR_CANCHA
+                self.contadorFotograma = 0
+        
+        return self.colorFondo
+        
+        '''
+        if self.temporizador < 10000 and self.temporizador > 5000:
+            self.pantalla_principal.fill(FONDO_NARANJA)
+        elif self.temporizador < 5000:
+            self.pantalla_principal.fill(FONDO_ROJO)
+        else:
+            self.pantalla_principal.fill(COLOR_CANCHA)
+        '''
