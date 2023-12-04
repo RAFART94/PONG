@@ -81,15 +81,22 @@ class Partida():
         if self.temporizador <= 0:
             print('Fin del Juego')
             self.game_over = False
+
+            if self.contadorDerecho > self.contadorIzquierdo:
+                return f'El ganador es el Player 1:  resultado - Player1:{self.contadorDerecho} , Player2:{self.contadorIzquierdo}'
+            elif self.contadorIzquierdo > self.contadorDerecho:
+                return f'El ganador es el Player 2:  resultado - Player1:{self.contadorDerecho} , Player2:{self.contadorIzquierdo}'
+            else:
+                return f'Empate entre Player 1 y Player 2, resultado - Player1:{self.contadorDerecho} , Player2:{self.contadorIzquierdo}'
                 
         #Finalización de juego por puntos
         if self.contadorDerecho == 7:
             self.game_over = False
-            print('El ganador es el Player 1')
+            return 'El ganador es el Player 1'
                     
         if self.contadorIzquierdo == 7:
             self.game_over = False
-            print('El ganador es el Player 2')
+            return 'El ganador es el Player 2'
 
     def mostrar_temporizador(self):
         TIEMPO_JUEGO = self.fuente2.render(str(int(self.temporizador/1000)), True, COLOR_ROJO)
@@ -124,3 +131,58 @@ class Partida():
         else:
             self.pantalla_principal.fill(COLOR_CANCHA)
         '''
+
+class Menu():
+    pg.init()
+    def __init__(self):
+        self.pantalla_principal = pg.display.set_mode((ANCHO,ALTO))
+        pg.display.set_caption('Menú')
+        self.tasa_refresco = pg.time.Clock()
+        self.imagenFondo = pg.image.load('pongapp/images/pong.jpg') #Cargar imágenes
+        self.fuente = pg.font.Font(FUENTE1, 33)
+
+    def bucle_pantalla(self):
+        game_over = True
+        while game_over:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    game_over = False
+                #if event.type == pg.KEYDOWN:
+                    #if event.key == pg.K_RETURN:
+                        #game_over = False
+                        #print('precionaste enter')
+            enter = pg.key.get_pressed()
+            if enter[pg.K_RETURN]:
+                #game_over = False
+                return 'partida'
+        
+            self.pantalla_principal.blit(self.imagenFondo, (0,0))
+            texto_menu = self.fuente.render('Pulsa ENTER para jugar', True, COLOR_BLANCO)
+            self.pantalla_principal.blit(texto_menu, (400, ALTO//2))
+
+            pg.display.flip()
+        pg.quit()
+
+class Resultado():
+    pg.init()
+    def __init__(self, resultado):
+        self.pantalla_principal = pg.display.set_mode ((ANCHO,ALTO))
+        pg.display.set_caption('Resultado')
+        self.tasa_refresco = pg.time.Clock()
+        self.fuenteResultado = pg.font.Font(FUENTE1, 40)
+        self.resultado = resultado
+
+    def bucle_pantalla(self):
+        game_over = True
+        while game_over:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    game_over = False
+        
+            self.pantalla_principal.fill(COLOR_BLANCO)
+            result = self.fuenteResultado.render(str(self.resultado), True, COLOR_GRANATE)
+            self.pantalla_principal.blit(result, (200,ALTO//2))
+        
+            pg.display.flip()
+        pg.quit()
+    
