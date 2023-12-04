@@ -18,18 +18,22 @@ class Partida():
         self.contadorDerecho = 0
         self.contadorIzquierdo = 0
         self.quienMarco = ''
-
+        self.temporizador = TIEMPO_JUEGO #Son 10 segundos
+        self.game_over = True
     def bucle_fotograma(self):
-        game_over = True
-        while game_over:
+        
+        while self.game_over:
             self.valor_tasa = self.tasa_refresco.tick(350)
+            self.temporizador = self.temporizador - self.valor_tasa
 
+           
             for evento in pg.event.get():
                 if evento.type == pg.QUIT:
-                    game_over = False
-        
+                    self.game_over = False
+            
+            self.finalizacion_de_juego()
+
             self.pantalla_principal.fill(COLOR_CANCHA)
-            #pg.draw.line(self.pantalla_principal, COLOR_BLANCO, (ANCHO//2,0), (ANCHO//2,ALTO), width=10)
             self.mostrar_linea_central()
 
             self.raqueta1.dibujar(self.pantalla_principal)
@@ -43,19 +47,13 @@ class Partida():
 
             self.pelota.comprobar_choqueV2(self.raqueta1, self.raqueta2)
             self.mostrar_marcador()
+            self.mostrar_temporizador()
 
             pg.display.flip()
 
         pg.quit()
 
     def mostrar_linea_central(self):
-            '''
-            cont_linea = 0
-            while cont_linea <= 600:
-                pg.draw.line(self.pantalla_principal, COLOR_BLANCO, (400,cont_linea), (400,cont_linea+50), width=10)
-                cont_linea += 70
-            '''
-
             for cont_linea in range(0,601,70):
                 pg.draw.line(self.pantalla_principal, COLOR_BLANCO, (ANCHO//2,cont_linea), (ANCHO//2,cont_linea+50), width=10)
             
@@ -74,7 +72,23 @@ class Partida():
         marcador1 = self.fuente1.render(str(self.contadorIzquierdo), True, COLOR_NARANJA)
         marcador2 = self.fuente1.render(str(self.contadorDerecho), True, COLOR_NARANJA)
         self.pantalla_principal.blit(marcador1, (325,50))
-        self.pantalla_principal.blit(marcador2, (450,50))   
+        self.pantalla_principal.blit(marcador2, (450,50))
 
+    def finalizacion_de_juego(self):
+        #Finalización de juego por tiempo
+        if self.temporizador <= 0:
+            print('Fin del Juego')
+            self.game_over = False
+                
+        #Finalización de juego por puntos
+        if self.contadorDerecho == 7:
+            self.game_over = False
+            print('El ganador es el Player 1')
+                    
+        if self.contadorIzquierdo == 7:
+            self.game_over = False
+            print('El ganador es el Player 2')
 
-
+    def mostrar_temporizador(self):
+        TIEMPO_JUEGO = self.fuente2.render(str(int(self.temporizador/1000)), True, COLOR_ROJO)
+        self.pantalla_principal.blit(TIEMPO_JUEGO, (400,20))
