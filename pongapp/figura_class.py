@@ -43,6 +43,7 @@ class Pelota():
         self.radio = radio
         self.vx = vx
         self.vy = vy
+        self.sonido = pg.mixer.Sound(SONIDO_PALA)
 
     def dibujar(self, surface):
         pg.draw.circle(surface, self.color, (self.pos_x, self.pos_y), self.radio)
@@ -108,3 +109,4 @@ class Pelota():
             self.abajo >= r.arriba and\
             self.arriba <= r.abajo:
                 self.vx *= -1
+                pg.mixer.Sound.play(self.sonido)

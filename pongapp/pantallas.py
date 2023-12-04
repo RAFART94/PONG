@@ -140,10 +140,12 @@ class Menu():
         self.tasa_refresco = pg.time.Clock()
         self.imagenFondo = pg.image.load('pongapp/images/pong.jpg') #Cargar imágenes
         self.fuente = pg.font.Font(FUENTE1, TAMAÑO2)
-
+        self.sonido = pg.mixer.Sound(SONIDO1)
+        
     def bucle_pantalla(self):
         game_over = True
         while game_over:
+            pg.mixer.Sound.play(self.sonido)
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     game_over = False
