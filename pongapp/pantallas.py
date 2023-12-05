@@ -4,7 +4,6 @@ from pongapp.utils import *
 
 class Partida():
     def __init__(self):
-        pg.init()
         self.pantalla_principal = pg.display.set_mode((ANCHO,ALTO))
         pg.display.set_caption('Pong')
         self.tasa_refresco = pg.time.Clock()
@@ -23,7 +22,14 @@ class Partida():
         self.contadorFotograma = 0
         self.colorFondo = COLOR_CANCHA
 
+        self.resultado_partida = ''
+
     def bucle_fotograma(self):
+        #Iniciar en punto de partida con parámetros de finalización de juego
+        self.temporizador = TIEMPO_JUEGO
+        self.tasa_refresco.tick()
+        self.contadorDerecho = 0
+        self.contadorIzquierdo = 0
         
         while self.game_over:
             self.valor_tasa = self.tasa_refresco.tick(VELOCIDAD_JUEGO)
@@ -53,8 +59,9 @@ class Partida():
             self.finalizacion_de_juego()
  
             pg.display.flip()
-
-        pg.quit()
+        return self.resultado_partida
+    
+        
 
     def mostrar_linea_central(self):
             for cont_linea in range(0,ALTO+1,70):
@@ -134,7 +141,6 @@ class Partida():
 
 class Menu():
     def __init__(self):
-        pg.init()
         self.pantalla_principal = pg.display.set_mode((ANCHO,ALTO))
         pg.display.set_caption('Menú')
         self.tasa_refresco = pg.time.Clock()
@@ -158,6 +164,7 @@ class Menu():
                 #game_over = False
                 return 'partida'
             elif botones[pg.K_r]:
+                pg.mixer.Sound.stop(self.sonido)
                 return 'record'
         
             self.pantalla_principal.blit(self.imagenFondo, (0,0))
@@ -167,16 +174,15 @@ class Menu():
             self.pantalla_principal.blit(texto_record, (ANCHO//2, ALTO//2+30))
 
             pg.display.flip()
-        pg.quit()
 
 class Resultado():
-    def __init__(self, resultado):
-        pg.init()
+    def __init__(self):
         self.pantalla_principal = pg.display.set_mode ((ANCHO,ALTO))
         pg.display.set_caption('Resultado')
         self.tasa_refresco = pg.time.Clock()
         self.fuenteResultado = pg.font.Font(FUENTE1, TAMAÑO3)
-        self.resultado = resultado
+        
+        self.resultado = ''
 
     def bucle_pantalla(self):
         game_over = True
@@ -184,17 +190,19 @@ class Resultado():
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     game_over = False
+
         
             self.pantalla_principal.fill(COLOR_BLANCO)
             result = self.fuenteResultado.render(str(self.resultado), True, COLOR_GRANATE)
             self.pantalla_principal.blit(result, (ANCHO-700, ALTO//2))
         
             pg.display.flip()
-        pg.quit()
+
+    def cargar_resultado(self, resultado):
+        self.resultado = resultado
 
 class Record():
     def __init__(self):
-        pg.init()
         self.pantalla_principal = pg.display.set_mode ((ANCHO,ALTO))
         pg.display.set_caption('Records')
         self.tasa_refresco = pg.time.Clock()
@@ -217,7 +225,5 @@ class Record():
             self.pantalla_principal.blit(result, (ANCHO-600, ALTO-500))
 
             pg.display.flip()
-        
-        pg.quit()
 
     
