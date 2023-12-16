@@ -10,7 +10,9 @@ class Partida():
 
         self.pelota = Pelota(ANCHO//2, ALTO//2, COLOR_PELOTA)
         self.raqueta1 = Raqueta(ANCHO-800, ALTO//2)
+        self.raqueta1.direccion = 'izqda'
         self.raqueta2 = Raqueta(ANCHO-20, ALTO//2)
+        self.raqueta2.direccion = 'drcha'
 
         self.fuente1 = pg.font.Font(FUENTE1, TAMAÑO1)
         self.fuente2 = pg.font.SysFont('Verdana', TAMAÑO2)
@@ -45,8 +47,8 @@ class Partida():
 
             self.mostrar_linea_central()
 
-            self.raqueta1.dibujar(self.pantalla_principal, 'izqda')
-            self.raqueta2.dibujar(self.pantalla_principal, 'drcha')
+            self.raqueta1.dibujar(self.pantalla_principal)
+            self.raqueta2.dibujar(self.pantalla_principal)
             self.pelota.dibujar(self.pantalla_principal)
             self.mostrar_jugadores()
 

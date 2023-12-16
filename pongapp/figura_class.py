@@ -9,14 +9,37 @@ class Raqueta():
         self.w = w
         self.h = h
         self.raqueta = None
-        self.imagenes = {
-            'drcha':RAQUETA_DERECHA,
-            'izqda':RAQUETA_IZQUIERDA
+        self.file_imagenes = {
+            'drcha':['electric00_drcha.png', 'electric01_drcha.png', 'electric02_drcha.png'],
+            'izqda':['electric00_izqda.png', 'electric01_izqda.png', 'electric02_izqda.png']
         }
-    def dibujar(self, surface, lado):
-        self.raqueta = pg.image.load(self.imagenes[lado])
-        surface.blit(self.raqueta, (self.pos_x, self.pos_y, self.w, self.h))
-        #pg.draw.rect(surface, self.color, (self.pos_x, self.pos_y, self.w, self.h))
+        self.imagenes = self.cargar_imagenes()#Llamar al metodo que vdevuelve la inicializacion de imagenes
+        self._direccion = '' #Variable para asignar direccion
+        self.imagenes_activa = 0 #Variable para indicar repeticion
+
+    def cargar_imagenes(self):
+        imagenprueba = {}
+        for lado in self.file_imagenes:
+            imagenprueba[lado] = []
+            for nombre_fichero in self.file_imagenes[lado]:
+                imagen = pg.image.load(f'pongapp/images/raquetas/{nombre_fichero}')
+                imagenprueba[lado].append(imagen)
+        return imagenprueba
+
+    
+    @property
+    def direccion(self):
+        return self._direccion
+    
+    @direccion.setter
+    def direccion(self, valor):
+        self._direccion = valor
+
+    def dibujar(self, surface):
+        surface.blit(self.imagenes[self.direccion][self.imagenes_activa], (self.pos_x, self.pos_y, self.w, self.h))
+        self.imagenes_activa += 1
+        if self.imagenes_activa >= len(self.imagenes[self.direccion]):
+            self.imagenes_activa = 0
         
 
     def mover(self, teclado_arriba, teclado_abajo):

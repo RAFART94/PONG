@@ -36,7 +36,7 @@ def recibirMano(mano):
         print('Derecha')
 
 recibirMano(mover_mano())
-'''
+
 
 def nombres(apellido):
     return 'Jose Alfredo ' + apellido
@@ -46,3 +46,21 @@ def apellidos(apellidos):
 
 nombres_apellidos = nombres(apellidos('Perez Ruiz'))
 print(nombres_apellidos)
+'''
+file_imagenes = {
+            'drcha':[RAQUETA_DERECHA, RAQUETA_DERECHA1, RAQUETA_DERECHA2],
+            'izqda':[RAQUETA_IZQUIERDA, RAQUETA_IZQUIERDA1, RAQUETA_IZQUIERDA2]
+        }
+
+lado = 'drcha'
+
+def pruebita(lado):
+    imagenprueba = {}
+    for lado in file_imagenes:
+        imagenprueba[lado] = []
+        for nombre_fichero in file_imagenes[lado]:
+            imagen = pg.image.load(f'pongapp/images/raquetas/imagen00')
+            imagenprueba[lado].append(imagen)
+    return imagenprueba
+
+respuesta = pruebita(lado)
