@@ -28,3 +28,4 @@ TAMAÑO2 = 30
 TAMAÑO3 = 20
 SONIDO1 = 'pongapp/songs/yeah.mp3'
 SONIDO_PALA = 'pongapp/songs/pala.mp3'
+TIEMPO_LIMIT_1 = 

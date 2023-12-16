@@ -14,6 +14,7 @@ class Partida():
 
         self.fuente1 = pg.font.Font(FUENTE1, TAMAÑO1)
         self.fuente2 = pg.font.SysFont('Verdana', TAMAÑO2)
+
         self.contadorDerecho = 0
         self.contadorIzquierdo = 0
         self.quienMarco = ''
@@ -31,13 +32,13 @@ class Partida():
         self.contadorDerecho = 0
         self.contadorIzquierdo = 0
         
-        while self.game_over:
+        while self.game_over and (self.contadorDerecho < 7 or self.contadorIzquierdo < 7) and self.temporizador > 0:
             self.valor_tasa = self.tasa_refresco.tick(VELOCIDAD_JUEGO)
             self.temporizador = self.temporizador - self.valor_tasa
-
+            self.finalizacion_de_juego()
             for evento in pg.event.get():
                 if evento.type == pg.QUIT:
-                    self.game_over = False
+                    return True
             
             color = self.fijar_fondo()
             self.pantalla_principal.fill(color)
@@ -59,6 +60,7 @@ class Partida():
             self.finalizacion_de_juego()
  
             pg.display.flip()
+
         return self.resultado_partida
     
         
@@ -84,26 +86,12 @@ class Partida():
         self.pantalla_principal.blit(marcador2, (POSX_MARCADOR2,POSY_MARCADOR1Y2))
 
     def finalizacion_de_juego(self):
-        #Finalización de juego por tiempo
-        if self.temporizador <= 0:
-            print('Fin del Juego')
-            self.game_over = False
-
-            if self.contadorDerecho > self.contadorIzquierdo:
-                return f'El ganador es el Player 1:  resultado = Player1:{self.contadorDerecho} , Player2:{self.contadorIzquierdo}'
-            elif self.contadorIzquierdo > self.contadorDerecho:
-                return f'El ganador es el Player 2:  resultado = Player1:{self.contadorDerecho} , Player2:{self.contadorIzquierdo}'
-            else:
-                return f'Empate entre Player 1 y Player 2, resultado = Player1:{self.contadorDerecho} , Player2:{self.contadorIzquierdo}'
-                
-        #Finalización de juego por puntos
-        if self.contadorDerecho == 7:
-            self.game_over = False
-            return 'El ganador es el Player 1'
-                    
-        if self.contadorIzquierdo == 7:
-            self.game_over = False
-            return 'El ganador es el Player 2'
+        if self.contadorDerecho > self.contadorIzquierdo:
+            self.resultado_partida = f'El ganador es el Player 1:  resultado = Player1:{self.contadorDerecho} , Player2:{self.contadorIzquierdo}'
+        elif self.contadorIzquierdo > self.contadorDerecho:
+            self.resultado_partida = f'El ganador es el Player 2:  resultado = Player1:{self.contadorDerecho} , Player2:{self.contadorIzquierdo}'
+        else:
+            self.resultado_partida = f'Empate entre Player 1 y Player 2, resultado = Player1:{self.contadorDerecho} , Player2:{self.contadorIzquierdo}'
 
     def mostrar_temporizador(self):
         TIEMPO_JUEGO = self.fuente2.render(str(int(self.temporizador/1000)), True, COLOR_ROJO)
@@ -154,7 +142,7 @@ class Menu():
             pg.mixer.Sound.play(self.sonido)
             for event in pg.event.get():
                 if event.type == pg.QUIT:
-                    game_over = False
+                    return True
                 #if event.type == pg.KEYDOWN:
                     #if event.key == pg.K_RETURN:
                         #game_over = False
@@ -190,6 +178,11 @@ class Resultado():
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     game_over = False
+            
+            botones = pg.key.get_pressed()
+
+            if botones[pg.K_RETURN]:
+                game_over = False
 
         
             self.pantalla_principal.fill(COLOR_BLANCO)
@@ -213,14 +206,10 @@ class Record():
         while game_over:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
-                    game_over = False
+                    return True
 
             self.pantalla_principal.fill(COLOR_BLANCO)
             result = self.fuenteRecord.render('Mejores Puntuaciones', True, COLOR_GRANATE)
-
-            enter = pg.key.get_pressed()
-            if enter[pg.K_RETURN]:
-                game_over = False
 
             self.pantalla_principal.blit(result, (ANCHO-600, ALTO-500))
 
