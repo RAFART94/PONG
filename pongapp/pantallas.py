@@ -45,8 +45,8 @@ class Partida():
 
             self.mostrar_linea_central()
 
-            self.raqueta1.dibujar(self.pantalla_principal)
-            self.raqueta2.dibujar(self.pantalla_principal)
+            self.raqueta1.dibujar(self.pantalla_principal, 'izqda')
+            self.raqueta2.dibujar(self.pantalla_principal, 'drcha')
             self.pelota.dibujar(self.pantalla_principal)
             self.mostrar_jugadores()
 
@@ -117,15 +117,6 @@ class Partida():
                 self.contadorFotograma = 0
         
         return self.colorFondo
-        
-        '''
-        if self.temporizador < 10000 and self.temporizador > 5000:
-            self.pantalla_principal.fill(FONDO_NARANJA)
-        elif self.temporizador < 5000:
-            self.pantalla_principal.fill(FONDO_ROJO)
-        else:
-            self.pantalla_principal.fill(COLOR_CANCHA)
-        '''
 
 class Menu():
     def __init__(self):
@@ -134,12 +125,13 @@ class Menu():
         self.tasa_refresco = pg.time.Clock()
         self.imagenFondo = pg.image.load('pongapp/images/pong.jpg') #Cargar imágenes
         self.fuente = pg.font.Font(FUENTE1, TAMAÑO2)
-        self.sonido = pg.mixer.Sound(SONIDO1)
+        self.sonido = pg.mixer.Sound(SONIDO1)#Definimos el sonido con el path del archivo
         
     def bucle_pantalla(self):
         game_over = True
         while game_over:
-            pg.mixer.Sound.play(self.sonido)
+            pg.mixer.Sound.set_volume(self.sonido, 0.05)#Controlando el volumen de sonido
+            pg.mixer.Sound.play(self.sonido)#Activamos el sonido
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     return True
@@ -152,7 +144,7 @@ class Menu():
                 #game_over = False
                 return 'partida'
             elif botones[pg.K_r]:
-                pg.mixer.Sound.stop(self.sonido)
+                pg.mixer.Sound.stop(self.sonido)#Paramos el sonido
                 return 'record'
         
             self.pantalla_principal.blit(self.imagenFondo, (0,0))

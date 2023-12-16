@@ -28,4 +28,6 @@ TAMAÑO2 = 30
 TAMAÑO3 = 20
 SONIDO1 = 'pongapp/songs/yeah.mp3'
 SONIDO_PALA = 'pongapp/songs/pala.mp3'
-TIEMPO_LIMIT_1 = 
+IMG_PELOTA = 'pongapp/images/pelotas/pelota.png'
+RAQUETA_DERECHA = 'pongapp/images/raquetas/electric00_drcha.png'
+RAQUETA_IZQUIERDA = 'pongapp/images/raquetas/electric00_izqda.png'

@@ -8,9 +8,16 @@ class Raqueta():
         self.color = color
         self.w = w
         self.h = h
-
-    def dibujar(self, surface):
-        pg.draw.rect(surface, self.color, (self.pos_x, self.pos_y, self.w, self.h))
+        self.raqueta = None
+        self.imagenes = {
+            'drcha':RAQUETA_DERECHA,
+            'izqda':RAQUETA_IZQUIERDA
+        }
+    def dibujar(self, surface, lado):
+        self.raqueta = pg.image.load(self.imagenes[lado])
+        surface.blit(self.raqueta, (self.pos_x, self.pos_y, self.w, self.h))
+        #pg.draw.rect(surface, self.color, (self.pos_x, self.pos_y, self.w, self.h))
+        
 
     def mover(self, teclado_arriba, teclado_abajo):
         estado_teclado = pg.key.get_pressed()
@@ -44,9 +51,11 @@ class Pelota():
         self.vx = vx
         self.vy = vy
         self.sonido = pg.mixer.Sound(SONIDO_PALA)
+        self.pelota = pg.image.load(IMG_PELOTA)
 
     def dibujar(self, surface):
-        pg.draw.circle(surface, self.color, (self.pos_x, self.pos_y), self.radio)
+        #pg.draw.circle(surface, self.color, (self.pos_x, self.pos_y), self.radio)
+        surface.blit(self.pelota, (self.pos_x, self.pos_y))
 
     def mover(self, x_max=ANCHO, y_max=ALTO):
         self.pos_x += self.vx
